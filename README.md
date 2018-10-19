@@ -3,14 +3,13 @@
 
 ## Dependence
 
-* [Python](https://www.python.org/) 3.6.5
-* [Django](https://www.djangoproject.com/) 2.0.5
+* [Python](https://www.python.org/) 3.7
+* [Django](https://www.djangoproject.com/) 2.1
 
 ## Get Started
 
 ```
-$ docker-compose build
-$ docker-compose up -d
+$ docker-compose up --build
 ```
 
 ### Development
@@ -21,32 +20,38 @@ $ docker-compose up -d
 - Admin page
     - http://localhost:8888/admin
 
-- phpMyAdmin
-	- http://localhost:8889
-
-
 ### Commands
-enter the python container
-```
-$ docker exec -it python bash
-```
-
 create a django app
 ```
-$ python manage.py startapp <app_name>
+$ docker exec python ./manage.py startapp {app_label}
+```
+
+create models from existing database
+```
+$ docker exec python ./manage.py inspectdb > {path/to/models.py}
 ```
 
 execute migration
 ```
-$ python manage.py migrate
+$ docker exec python ./manage.py migrate
 ```
 
 create a migration file
 ```
-$ python manage.py makemigrations
+$ docker exec python ./manage.py makemigrations
+```
+
+create dump fixture files
+```
+$ docker exec python ./manage.py dumpdata {app_label.model} --indent 2 > {path/to/fuxture.json}
+```
+
+load data from fixture files
+```
+$ docker exec python ./manage.py loaddata --verbosity 2 > {path/to/fuxture.json}
 ```
 
 create an admin account
 ```
-$ python manage.py createsuperuser
+$ docker exec -it python ./manage.py createsuperuser
 ```
